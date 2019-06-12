@@ -54,7 +54,7 @@ public class Rooster extends AppCompatActivity {
         TextView Date = (TextView) findViewById(R.id.Date);
         Date.setText(currentDate);
 
-        Username = findViewById(R.id.Username);
+        //Username = findViewById(R.id.Username);
 
 
 
