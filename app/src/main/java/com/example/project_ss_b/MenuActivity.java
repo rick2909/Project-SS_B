@@ -6,24 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
-
-    Button rapportage;
-    Button rooster;
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
 
-        menu_knop();
+
+        configurePatientsButton();
     }
-    public void menu_knop(){
-        Button menu_knop = findViewById(R.id.menu_knop);
-        menu_knop.setOnClickListener(new View.OnClickListener(){
+
+
+
+    private void configurePatientsButton(){
+        Button button = findViewById(R.id.patients_btn);
+        button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                startActivity(new Intent(MenuActivity.this, PatientsActivity.class));
             }
         });
     }
