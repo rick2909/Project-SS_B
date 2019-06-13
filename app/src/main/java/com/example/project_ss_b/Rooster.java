@@ -1,11 +1,14 @@
 package com.example.project_ss_b;
 
-import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,20 +19,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class Rooster extends AppCompatActivity {
 
-    EditText name;
-    EditText pass;
-    TextView tView;
-
-    private TextView txtResponse;
+    //private TextView txtResponse;
     private String jsonResponse;
+    private TextView Username;
+    LinearLayout layout;
+
+
 
     // URL to get contacts JSON
     private static String url = "https://api.androidhive.info/contacts/";
@@ -39,46 +45,80 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rooster);
+        //Date
+        Calendar cal =  Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
 
-        name = findViewById(R.id.username);
-        pass = findViewById(R.id.password);
-        tView = findViewById(R.id.textView);
+
+        TextView Date = (TextView) findViewById(R.id.Date);
+        Date.setText(currentDate);
+
+        //Username = findViewById(R.id.Username);
+
+
+
+
+//      txtResponse = findViewById(R.id.txtResponse);
+
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setTitle("Rooster");
+        //add backButton
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        send();
+
+
     }
-
+    //make the backbutton go on step back
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
     //function that is called after response
     private void responder(String response){
         //try to create json object of the response
         try{
             JSONObject obj = new JSONObject(response);
 
-            JSONObject user = obj.getJSONObject("user");
-            String name = user.getString("achternaam");
-            String email = user.getString("email");
-            String id = user.getString("id");
+            JSONArray rooster = obj.getJSONArray("rooster");
 
-            System.out.println("HELP");
-
+            layout = (LinearLayout) findViewById(R.id.layout);
             jsonResponse = "";
-            jsonResponse += "Name: " + name + "\n\n";
-            jsonResponse += "Email: " + email + "\n\n";
-            jsonResponse += "Id: " + id + "\n\n";
 
+            for(int i = 0; i < rooster.length(); i++){
+                JSONObject client = rooster.getJSONObject(i);
+                String name = client.getString("gebruikers_id");
+                String dag = client.getString("dag_van_de_week");
+                String tijd = client.getString("tijd");
+
+                TextView text = new TextView(this);
+                text.setText("  Naam: " + name + "\n  " + dag + " " + tijd + "\n\n" );
+                text.setPadding(32,0,32,0);
+                text.setTextSize(20);
+                text.setTextColor(Color.BLACK);
+                text.setGravity(Gravity.LEFT);
+                text.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                layout.addView(text);
+
+                jsonResponse += name;
+                jsonResponse += dag + "   " + tijd;
+
+            }
+
+            System.out.println(rooster);
+
+//            T0000.setText(jsonResponse);
+//            TV00.setText(jsonResponse);
             //txtResponse.setText(jsonResponse);
 
             String toast;
 
-            System.out.println("NOPES");
             if(!obj.getBoolean("error")){
                 toast = "succes: " + obj.getString("message");
-                System.out.println("GOOD");
-                //Intent intent = new Intent(this, MenuActivity.class);
-                //startActivity(intent);
             }else {
                 toast = "Error: " + obj.getString("message");
-                System.out.println("ERROR");
-
-                tView.setText("Gebruikersnaam of wachtwoord is verkeerd. Probeer het nog eens.");
             }
 
             // a small message to notify the user what happened
@@ -89,14 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void send(View view){
-
-        //get data from inputs my case not used :)
-        //EditText editEmail = findViewById(R.id.email);
-        final String email = name.getText().toString();
-        //EditText editPassword = findViewById(R.id.wachtwoord);
-        final String password = pass.getText().toString();
-
+    public void send(){
         //create Volley queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -124,10 +157,10 @@ public class MainActivity extends AppCompatActivity {
                 //place the paremeters
                 Map<String, String>  params = new HashMap<String, String>();
                 //the function you want to call
-                params.put("function", "login");
+                params.put("function", "getRooster");
                 //the arguments it needs read README for that
-                params.put("email", email);
-                params.put("password", password);
+                params.put("id", "1");
+                //params.put("password", password);
 
                 return params;
             }
@@ -136,9 +169,12 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
-        System.out.println(email);
-        System.out.println(password);
+//        System.out.println(email);
+//        System.out.println(password);
     }
 }
+
+
+
 
 
