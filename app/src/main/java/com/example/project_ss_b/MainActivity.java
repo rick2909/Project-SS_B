@@ -8,6 +8,9 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button rapportage;
+    Button rooster;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,3 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ad9c572958fd527bcc45ef2f8315d2285a498246
