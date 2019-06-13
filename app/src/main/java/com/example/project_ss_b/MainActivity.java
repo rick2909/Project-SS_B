@@ -24,17 +24,12 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText name;
-    EditText pass;
-    TextView tView;
+    private EditText name;
+    private EditText pass;
+    private TextView tView;
 
     private TextView txtResponse;
     private String jsonResponse;
-
-    // URL to get contacts JSON
-    private static String url = "https://api.androidhive.info/contacts/";
-
-    ArrayList<HashMap<String, String>> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +47,10 @@ public class MainActivity extends AppCompatActivity {
         try{
             JSONObject obj = new JSONObject(response);
 
-            JSONObject user = obj.getJSONObject("user");
-            String name = user.getString("achternaam");
-            String email = user.getString("email");
-            String id = user.getString("id");
-
             System.out.println("HELP");
-
-            jsonResponse = "";
-            jsonResponse += "Name: " + name + "\n\n";
-            jsonResponse += "Email: " + email + "\n\n";
-            jsonResponse += "Id: " + id + "\n\n";
-
-            //txtResponse.setText(jsonResponse);
 
             String toast;
 
-            System.out.println("NOPES");
             if(!obj.getBoolean("error")){
                 toast = "succes: " + obj.getString("message");
                 System.out.println("GOOD");
@@ -92,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void send(View view){
 
         //get data from inputs my case not used :)
-        //EditText editEmail = findViewById(R.id.email);
         final String email = name.getText().toString();
-        //EditText editPassword = findViewById(R.id.wachtwoord);
         final String password = pass.getText().toString();
 
         //create Volley queue
@@ -140,5 +120,3 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(password);
     }
 }
-
-
