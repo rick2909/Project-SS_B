@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
             if(!obj.getBoolean("error")){
                 toast = "succes: " + obj.getString("message");
                 System.out.println("GOOD");
-                //Intent intent = new Intent(this, MenuActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
             }else {
                 toast = "Error: " + obj.getString("message");
                 System.out.println("ERROR");
