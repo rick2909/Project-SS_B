@@ -57,42 +57,9 @@ public class PatientsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 Toast.makeText(PatientsActivity.this, clienten[i] , Toast.LENGTH_SHORT).show();
-                if (i==0){
-                    Intent patientA  = new Intent(view.getContext(), PatientA.class);
-                    patientA.putExtra("client", clientenArray[i].toString());
-                    startActivityForResult(patientA, 0);
-                }
-
-                if (i==1){
-                    Intent patientB  = new Intent(view.getContext(), PatientB.class);
-                    startActivityForResult(patientB, 1);
-                }
-
-                if (i==2){
-                    Intent patientC  = new Intent(view.getContext(), PatientC.class);
-                    startActivityForResult(patientC, 2);
-                }
-
-                if (i==3){
-                    Intent patientD  = new Intent(view.getContext(), PatientD.class);
-                    startActivityForResult(patientD, 3);
-                }
-
-                if (i==4){
-                    Intent patientE  = new Intent(view.getContext(), PatientE.class);
-                    startActivityForResult(patientE, 4);
-                }
-
-                if (i==5){
-                    Intent patientF  = new Intent(view.getContext(), PatientF.class);
-                    startActivityForResult(patientF, 5);
-                }
-
-                if (i==6){
-                    Intent patientG  = new Intent(view.getContext(), PatientG.class);
-                    startActivityForResult(patientG, 6);
-                }
-
+                Intent patientA  = new Intent(view.getContext(), PatientA.class);
+                patientA.putExtra("client", clientenArray[i].toString());
+                startActivityForResult(patientA, 0);
             }
         });
     }

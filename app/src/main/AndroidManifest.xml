@@ -13,12 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
-        <activity android:name=".PatientG"></activity>
-        <activity android:name=".PatientF" />
-        <activity android:name=".PatientE" />
-        <activity android:name=".PatientD" />
-        <activity android:name=".PatientC" />
-        <activity android:name=".PatientB" />
         <activity android:name=".PatientA" />
         <activity android:name=".PatientsActivity" />
         <activity android:name=".MenuActivity" />

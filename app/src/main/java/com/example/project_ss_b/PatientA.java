@@ -1,6 +1,7 @@
 package com.example.project_ss_b;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -43,7 +44,12 @@ public class PatientA extends AppCompatActivity {
         textView3 = (TextView)findViewById(R.id.textView3);
         textView5 = (TextView)findViewById(R.id.textView5);
 
-                Intent intent = getIntent();
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setTitle("Patienten");
+        //add backButton
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
         if (intent.hasExtra("client")) {
             System.out.println(intent.getExtras().getString("client"));
             try {
@@ -126,5 +132,11 @@ public class PatientA extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }
