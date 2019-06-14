@@ -119,9 +119,4 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(email);
         System.out.println(password);
     }
-
-    public void onClick(View view){
-        Intent vollyExample = new Intent(this, VollyExample.class);
-        startActivity(vollyExample);
-    }
 }

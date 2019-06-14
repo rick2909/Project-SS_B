@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:onClick="send"
-        android:text="Button"
+        android:text="Login"
         app:layout_constraintBaseline_toBaselineOf="@+id/username"
         app:layout_constraintStart_toEndOf="@+id/username" />
 

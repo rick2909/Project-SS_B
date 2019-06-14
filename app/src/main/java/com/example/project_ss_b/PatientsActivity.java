@@ -27,11 +27,6 @@ import java.util.Map;
 
 public class PatientsActivity extends AppCompatActivity {
     ListView lv;
-
-    private TextView txtResponse;
-    private String jsonResponse;
-
-
     ArrayAdapter adapter;
 
     @Override

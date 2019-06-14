@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,11 @@ public class Rapportage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rapportage);
+
+        ActionBar actionBar = this.getSupportActionBar();
+        actionBar.setTitle("Rapportage");
+        //add backButton
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //Date
         Calendar cal = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime());
@@ -172,6 +178,12 @@ public class Rapportage extends AppCompatActivity {
         }else{
             System.out.println("Rename Unsuccessful");
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
 }
