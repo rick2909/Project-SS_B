@@ -10,4 +10,6 @@
     <!--<string name="button">Button</string>-->
     <!--<string name="button">Button</string>-->
     <string name="menu">Menu</string>
+    <string name="Rapport">Rapport</string>
+    <string name="Locatie">Woont</string>
 </resources>

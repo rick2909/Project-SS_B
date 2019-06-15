@@ -27,11 +27,19 @@ public class PatientA extends AppCompatActivity {
     private TextView textView2;
     private TextView textView3;
     private TextView textView5;
+//    private TextView textPlaats;
+//    private TextView textAdres;
+//    private TextView textPostcode;
+    private TextView textGeslacht;
     private String naam;
     private String opmerkingen;
     private String updatedAt;
     private String email;
+    private String geslacht;
     private JSONObject patient;
+
+    //create Volley queue
+    private RequestQueue queue;
 
 
     @Override
@@ -39,10 +47,16 @@ public class PatientA extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
 
+         queue = Volley.newRequestQueue(this);
+
         textView = (TextView)findViewById(R.id.textView);
         textView2 = (TextView)findViewById(R.id.textView2);
         textView3 = (TextView)findViewById(R.id.textView3);
         textView5 = (TextView)findViewById(R.id.textView5);
+        textGeslacht = (TextView)findViewById(R.id.geslacht);
+//        textPlaats = (TextView)findViewById(R.id.plaats);
+//        textAdres = (TextView)findViewById(R.id.adres);
+//        textPostcode = (TextView)findViewById(R.id.postcode);
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setTitle("Patienten");
@@ -55,16 +69,22 @@ public class PatientA extends AppCompatActivity {
             try {
                 patient = new JSONObject(intent.getExtras().getString("client"));
                 naam = patient.getString("achternaam");
-                textView.setText(naam);
+                email = patient.getString("email");
+                geslacht = patient.getString("Geslacht");
+                textView.setText("achternaam: " + naam);
+                textView5.setText("E-Mail: " + email);
+                textView5.setText("E-Mail: " + email);
+                textGeslacht.setText("Geslacht: " + geslacht);
 
-                send(patient.getString("id"));
+                send(patient.getString("id"), "getProtocol");
+//                send(patient.getString("locatie_id"), "getClientsLoactien");
             } catch (JSONException e) {
                 System.out.println(e);
             }
         }
     }
 
-    private void responder(String response){
+    private void responderProtocol(String response){
         //try to create json object of the response
         try{
             JSONObject obj = new JSONObject(response);
@@ -76,10 +96,9 @@ public class PatientA extends AppCompatActivity {
                 toast = "succes: " + obj.getString("message");
                 opmerkingen = protocol.getString("Protocol");
                 updatedAt = protocol.getString("updated_at");
-                email = patient.getString("email");
                 textView2.setText(opmerkingen);
                 textView3.setText("Updated at: " + updatedAt);
-                textView5.setText(email);
+
             }else {
                 toast = "Error: " + obj.getString("message");
             }
@@ -94,10 +113,39 @@ public class PatientA extends AppCompatActivity {
         }
     }
 
-    public void send(final String clientId){
-        //create Volley queue
-        RequestQueue queue = Volley.newRequestQueue(this);
+    private void responderLocatie(String response){
+        //try to create json object of the response
+        try{
+            JSONObject obj = new JSONObject(response);
+            JSONObject protocol = obj.getJSONObject("locatie");
+            String toast;
 
+            if(!obj.getBoolean("error")){
+                System.out.println("GOOD");
+                toast = "succes: " + obj.getString("message");
+                opmerkingen = protocol.getString("Protocol");
+                updatedAt = protocol.getString("updated_at");
+                updatedAt = protocol.getString("updated_at");
+
+//                textPlaats.setText("achternaam: " + naam);
+//                textAdres.setText("E-Mail: " + email);
+//                textPostcode.setText("E-Mail: " + email);
+
+            }else {
+                toast = "Error: " + obj.getString("message");
+            }
+
+
+
+            // a small message to notify the user what happened
+            Toast message = Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT);
+            message.show();
+        }catch (Throwable t) {
+            System.out.println(response + " was not json " + t);
+        }
+    }
+
+    public void send(final String id, final String functionCall){
         //url to API
         String url ="http://145.24.222.132/api.php";
 
@@ -106,7 +154,11 @@ public class PatientA extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        responder(response);
+                        if(functionCall == "getProtocol"){
+                            responderProtocol(response);
+                        }else if(functionCall == "getClientsLoactien"){
+                            responderLocatie(response);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -122,9 +174,9 @@ public class PatientA extends AppCompatActivity {
                 //place the paremeters
                 Map<String, String>  params = new HashMap<String, String>();
                 //the function you want to call
-                params.put("function", "getProtocol");
+                params.put("function", functionCall);
                 //the arguments it needs read README for that
-                params.put("id", clientId);
+                params.put("id", id);
 
                 return params;
             }
