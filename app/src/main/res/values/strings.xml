@@ -13,4 +13,6 @@
     <string name="Rapport">Rapport</string>
     <string name="Locatie">Woont</string>
     <string name="Rooster">Rooster</string>
+    <string name="title_activity_client_on_map">Map</string>
+    <string name="goMaps">zie in Maps</string>
 </resources>

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +32,7 @@ public class PatientA extends AppCompatActivity {
     private TextView textAdres;
     private TextView textPostcode;
     private TextView textGeslacht;
+    private Button goMaps;
     private String naam;
     private String opmerkingen;
     private String updatedAt;
@@ -39,6 +41,8 @@ public class PatientA extends AppCompatActivity {
     private String plaats;
     private String adres;
     private String postcode;
+    private String lat;
+    private String lon;
     private JSONObject patient;
 
     //create Volley queue
@@ -50,7 +54,7 @@ public class PatientA extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
 
-         queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(this);
 
         textView = (TextView)findViewById(R.id.textView);
         textView2 = (TextView)findViewById(R.id.textView2);
@@ -60,6 +64,7 @@ public class PatientA extends AppCompatActivity {
         textPlaats = (TextView)findViewById(R.id.plaats);
         textAdres = (TextView)findViewById(R.id.adres);
         textPostcode = (TextView)findViewById(R.id.postcode);
+        goMaps = (Button)findViewById(R.id.goMaps);
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setTitle("Patienten");
@@ -120,20 +125,36 @@ public class PatientA extends AppCompatActivity {
         //try to create json object of the response
         try{
             JSONObject obj = new JSONObject(response);
-            JSONObject protocol = obj.getJSONObject("locatie");
+            JSONObject locatie = obj.getJSONObject("locatie");
             String loacstieToats;
 
             if(!obj.getBoolean("error")){
                 System.out.println("GOOD");
                 loacstieToats = "succes: " + obj.getString("message");
-                plaats = protocol.getString("stad");
-                adres = protocol.getString("adres");
-                postcode = protocol.getString("postcode");
+                plaats = locatie.getString("stad");
+                adres = locatie.getString("adres");
+                postcode = locatie.getString("postcode");
+                lat = locatie.getString("latitude");
+                lon = locatie.getString("longitude");
 
                 textPlaats.setText("Plaats: " + plaats);
                 textAdres.setText("Adres: " + adres);
                 textPostcode.setText("Postcode: " + postcode);
 
+                final JSONObject maps = new JSONObject();
+
+                maps.put("naam", naam);
+                maps.put("lat", lat);
+                maps.put("lon", lon);
+
+                goMaps.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        Intent googleMaps  = new Intent(PatientA.this, clientOnMap.class);
+                        googleMaps.putExtra("client", maps.toString());
+                        startActivityForResult(googleMaps, 0);
+                    }
+                });
             }else {
                 loacstieToats = "Error: " + obj.getString("message");
             }
