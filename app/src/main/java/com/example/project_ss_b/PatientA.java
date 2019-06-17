@@ -27,15 +27,18 @@ public class PatientA extends AppCompatActivity {
     private TextView textView2;
     private TextView textView3;
     private TextView textView5;
-//    private TextView textPlaats;
-//    private TextView textAdres;
-//    private TextView textPostcode;
+    private TextView textPlaats;
+    private TextView textAdres;
+    private TextView textPostcode;
     private TextView textGeslacht;
     private String naam;
     private String opmerkingen;
     private String updatedAt;
     private String email;
     private String geslacht;
+    private String plaats;
+    private String adres;
+    private String postcode;
     private JSONObject patient;
 
     //create Volley queue
@@ -54,9 +57,9 @@ public class PatientA extends AppCompatActivity {
         textView3 = (TextView)findViewById(R.id.textView3);
         textView5 = (TextView)findViewById(R.id.textView5);
         textGeslacht = (TextView)findViewById(R.id.geslacht);
-//        textPlaats = (TextView)findViewById(R.id.plaats);
-//        textAdres = (TextView)findViewById(R.id.adres);
-//        textPostcode = (TextView)findViewById(R.id.postcode);
+        textPlaats = (TextView)findViewById(R.id.plaats);
+        textAdres = (TextView)findViewById(R.id.adres);
+        textPostcode = (TextView)findViewById(R.id.postcode);
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setTitle("Patienten");
@@ -77,7 +80,7 @@ public class PatientA extends AppCompatActivity {
                 textGeslacht.setText("Geslacht: " + geslacht);
 
                 send(patient.getString("id"), "getProtocol");
-//                send(patient.getString("locatie_id"), "getClientsLoactien");
+                send(patient.getString("locatie_id"), "getClientsLoactien");
             } catch (JSONException e) {
                 System.out.println(e);
             }
@@ -118,27 +121,27 @@ public class PatientA extends AppCompatActivity {
         try{
             JSONObject obj = new JSONObject(response);
             JSONObject protocol = obj.getJSONObject("locatie");
-            String toast;
+            String loacstieToats;
 
             if(!obj.getBoolean("error")){
                 System.out.println("GOOD");
-                toast = "succes: " + obj.getString("message");
-                opmerkingen = protocol.getString("Protocol");
-                updatedAt = protocol.getString("updated_at");
-                updatedAt = protocol.getString("updated_at");
+                loacstieToats = "succes: " + obj.getString("message");
+                plaats = protocol.getString("stad");
+                adres = protocol.getString("adres");
+                postcode = protocol.getString("postcode");
 
-//                textPlaats.setText("achternaam: " + naam);
-//                textAdres.setText("E-Mail: " + email);
-//                textPostcode.setText("E-Mail: " + email);
+                textPlaats.setText("Plaats: " + plaats);
+                textAdres.setText("Adres: " + adres);
+                textPostcode.setText("Postcode: " + postcode);
 
             }else {
-                toast = "Error: " + obj.getString("message");
+                loacstieToats = "Error: " + obj.getString("message");
             }
 
 
 
             // a small message to notify the user what happened
-            Toast message = Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT);
+            Toast message = Toast.makeText(getApplicationContext(), loacstieToats, Toast.LENGTH_SHORT);
             message.show();
         }catch (Throwable t) {
             System.out.println(response + " was not json " + t);

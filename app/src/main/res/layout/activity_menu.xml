@@ -54,16 +54,14 @@
         app:layout_constraintVertical_bias="0.228" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/Rooster"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/button"
+        android:text="@string/Rooster"
         app:layout_constraintBottom_toTopOf="@+id/button6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -85,7 +83,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.306"
-        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/Rooster"
         app:layout_constraintTop_toBottomOf="@+id/rapportage" />
 
     <Button

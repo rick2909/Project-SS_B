@@ -17,6 +17,7 @@ public class MenuActivity extends AppCompatActivity {
         configurePatientsButton();
         configureRapportageButton();
         configureLogoutButton();
+        configureRoosterButton();
     }
 
     private void configurePatientsButton(){
@@ -45,6 +46,16 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 startActivity(new Intent(MenuActivity.this, MainActivity.class));
+            }
+        });
+    }
+
+    private void configureRoosterButton(){
+        Button button = findViewById(R.id.Rooster);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(new Intent(MenuActivity.this, Rooster.class));
             }
         });
     }
