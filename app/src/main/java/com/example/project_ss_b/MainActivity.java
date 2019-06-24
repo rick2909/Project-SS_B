@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText pass;
     private TextView tView;
 
-    private TextView txtResponse;
-    private String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,20 @@ public class MainActivity extends AppCompatActivity {
         name = findViewById(R.id.username);
         pass = findViewById(R.id.password);
         tView = findViewById(R.id.textView);
+
+        configureLoginButton();
+
+        pass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    send();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     //function that is called after response
@@ -71,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void send(View view){
+    public void send(){
 
         //get data from inputs my case not used :)
         final String email = name.getText().toString();
@@ -118,5 +133,24 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(email);
         System.out.println(password);
+    }
+
+    private void configureLoginButton(){
+        Button button = findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                send();
+            }
+        });
+    }
+
+    //disable back button vof the phone
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
